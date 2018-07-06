@@ -5,6 +5,10 @@
  */
 package it.drakonkat.gitlabsnippetplugin.frame;
 
+import it.drakonkat.gitlabsnipperplugin.config.PropertiesManager;
+import java.io.FileNotFoundException;
+import java.util.Properties;
+
 /**
  *
  * @author mmazzocchetti
@@ -15,7 +19,14 @@ public class GitlabSnippetPlugin {
          * @param args the command line arguments
          */
         public static void main(String[] args) {
-                // TODO code application logic here
+                try {
+                        // TODO code application logic here
+                        Properties properties = PropertiesManager.getInstance().loadProperties();
+                        System.out.println("ok" + properties.getProperty("username"));
+                } catch (FileNotFoundException ex) {
+                        System.out.println("errore " + ex.getMessage());
+                        ex.printStackTrace();
+                }
         }
         
 }

@@ -22,6 +22,16 @@ public class PropertiesManager {
 
         private static final String DEFAULT_PATH = "config.properties";
 
+        private static PropertiesManager instance = null;
+
+        public static PropertiesManager getInstance() {
+                if (instance == null) {
+                        instance = new PropertiesManager();
+                }
+                return instance;
+
+        }
+
         public Properties loadProperties() throws FileNotFoundException {
                 return loadProperties(DEFAULT_PATH, true);
         }
@@ -45,7 +55,7 @@ public class PropertiesManager {
                 // Controllo se interno all'applicativo
                 if (inner) {
                         //Lo carico dalle risorse
-                        is = PropertiesManager.class.getResourceAsStream(path);
+                        is = Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_PATH);
                 } else {
                         //Lo carico come risorsa esterna
                         try {

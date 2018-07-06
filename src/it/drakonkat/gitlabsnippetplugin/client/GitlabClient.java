@@ -1,11 +1,13 @@
 package it.drakonkat.gitlabsnippetplugin.client;
 
+import it.drakonkat.gitlabsnipperplugin.config.PropertiesManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 /**
  *
@@ -16,7 +18,9 @@ public class GitlabClient {
         public static void main(String[] args) {
 
                 try {
-                        URL url = new URL("http://localhost:8080/RESTfulExample/json/product/get");
+                        Properties p = PropertiesManager.getInstance().loadProperties();
+                        URL url = new URL(p.getProperty("url"));
+                        //URL url = new URL("http://localhost:8080/RESTfulExample/json/product/get");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("GET");
                         conn.setRequestProperty("Accept", "application/json");
