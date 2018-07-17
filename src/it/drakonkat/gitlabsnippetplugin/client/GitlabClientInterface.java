@@ -16,6 +16,8 @@ public interface GitlabClientInterface {
 
         GitlabModel getSnippet(String id) throws Exception;
 
+        String getCode(GitlabModel gitlabModel) throws Exception;
+
         Boolean saveSnippet(GitlabModel gitlabModel) throws Exception;
 
         Boolean deleteSnippet(String id) throws Exception;

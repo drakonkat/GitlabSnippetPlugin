@@ -56,7 +56,7 @@ public class GitlabClient implements GitlabClientInterface {
                         WebTarget webTarget = client.target(url);
                         Response response = null;
                         if (getSnippet(gitlabModel.getId()) != null) {
-                                response = webTarget.path("/snippets/" + gitlabModel.getId()).request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).post(Entity.entity(gitlabModel, MediaType.APPLICATION_JSON));
+                                response = webTarget.path("/snippets/" + gitlabModel.getId()).request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).put(Entity.entity(gitlabModel, MediaType.APPLICATION_JSON));
                         } else {
                                 response = webTarget.path("/snippets").request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).post(Entity.entity(gitlabModel, MediaType.APPLICATION_JSON));
                         }
@@ -118,4 +118,26 @@ public class GitlabClient implements GitlabClientInterface {
                 }
         }
 
+        @Override
+        public String getCode(GitlabModel gitlabModel) throws Exception {
+                try {
+                        Properties p = PropertiesManager.getInstance().loadProperties();
+                        String url = p.getProperty("url");
+                        Client client = ClientBuilder.newClient();
+                        WebTarget webTarget = client.target(url);
+                        Response response = webTarget.path("/snippets/" + gitlabModel.getId() + "/raw").request(MediaType.APPLICATION_XML).header("Private-Token", p.getProperty("token")).get();
+                        if (!(response.getStatus() == 200)) {
+                                throw new Exception("Response errata " + response.getStatus());
+                        }
+                        String code = response.readEntity(new GenericType<String>() {
+                        });
+                        return code;
+                } catch (FileNotFoundException ex) {
+                        Logger.getLogger(GitlabClient.class.getName()).log(Level.SEVERE, "Errore nell'instanziare il file di properties", ex);
+                        throw ex;
+                } catch (Exception ex) {
+                        Logger.getLogger(GitlabClient.class.getName()).log(Level.SEVERE, "Eccezione generica", ex);
+                        throw ex;
+                }
+        }
 }

@@ -5,7 +5,11 @@
  */
 package it.drakonkat.gitlabsnippetplugin.frame;
 
+import it.drakonkat.gitlabsnippetplugin.client.GitlabClient;
 import it.drakonkat.gitlabsnippetplugin.client.model.GitlabModel;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,14 +17,26 @@ import it.drakonkat.gitlabsnippetplugin.client.model.GitlabModel;
  */
 public class SnippetDetailComponent extends javax.swing.JPanel {
 
+        private GitlabModel gitlabModel;
+        private GitlabClient gitlabClient;
+        private JFrame frame;
+
         /**
          * Creates new form SnippetDetailComponent
+         *
          * @param gitlabModel to default populate object
          */
-        public SnippetDetailComponent(GitlabModel gitlabModel) {
+        public SnippetDetailComponent(GitlabModel gitlabModel, JFrame frame) {
                 initComponents();
-                snippetTitle.setText(gitlabModel.getTitle());
-                snippetCode.setText(gitlabModel.getCode());
+                gitlabClient = new GitlabClient();
+                this.frame = frame;
+                if (gitlabModel == null) {
+                        this.gitlabModel = new GitlabModel();
+                } else {
+                        this.gitlabModel = gitlabModel;
+                }
+                snippetTitle.setText(this.gitlabModel.getTitle());
+                snippetCode.setText(this.gitlabModel.getCode());
         }
 
         /**
@@ -37,6 +53,8 @@ public class SnippetDetailComponent extends javax.swing.JPanel {
                 jScrollPane1 = new javax.swing.JScrollPane();
                 snippetCode = new javax.swing.JTextArea();
                 jLabel1 = new javax.swing.JLabel();
+                jButton1 = new javax.swing.JButton();
+                indietro = new javax.swing.JButton();
 
                 title.setText("Title");
 
@@ -46,6 +64,20 @@ public class SnippetDetailComponent extends javax.swing.JPanel {
 
                 jLabel1.setText("Code");
 
+                jButton1.setText("Save or Update");
+                jButton1.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                jButton1ActionPerformed(evt);
+                        }
+                });
+
+                indietro.setText("Indietro");
+                indietro.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                indietroActionPerformed(evt);
+                        }
+                });
+
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
                 this.setLayout(layout);
                 layout.setHorizontalGroup(
@@ -53,11 +85,18 @@ public class SnippetDetailComponent extends javax.swing.JPanel {
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(title)
-                                        .addComponent(snippetTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jLabel1))
-                                .addContainerGap(224, Short.MAX_VALUE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(title)
+                                                        .addComponent(snippetTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel1))
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jButton1)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(indietro)))
+                                .addContainerGap())
                 );
                 layout.setVerticalGroup(
                         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -69,13 +108,38 @@ public class SnippetDetailComponent extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(122, Short.MAX_VALUE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jButton1)
+                                        .addComponent(indietro))
+                                .addContainerGap())
                 );
         }// </editor-fold>//GEN-END:initComponents
 
+        private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                gitlabModel.setTitle(snippetTitle.getText());
+                gitlabModel.setCode(snippetCode.getText());
+                try {
+                        gitlabClient.saveSnippet(gitlabModel);
+                } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA03", JOptionPane.ERROR_MESSAGE);
+                }
+        }//GEN-LAST:event_jButton1ActionPerformed
+
+        private void indietroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_indietroActionPerformed
+                DefaultPanel panel = new DefaultPanel(frame);
+                panel.setVisible(true);
+                panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                frame.remove(this);
+                frame.setContentPane(panel);
+                frame.pack();
+        }//GEN-LAST:event_indietroActionPerformed
+
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
+        private javax.swing.JButton indietro;
+        private javax.swing.JButton jButton1;
         private javax.swing.JLabel jLabel1;
         private javax.swing.JScrollPane jScrollPane1;
         private javax.swing.JTextArea snippetCode;
