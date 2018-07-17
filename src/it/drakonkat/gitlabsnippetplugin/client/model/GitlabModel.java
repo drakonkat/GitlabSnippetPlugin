@@ -106,9 +106,7 @@ public class GitlabModel implements Serializable {
 
         @Override
         public String toString() {
-                return "GitlabModel{" + "visibility=" + visibility + ", code=" + code + ", id=" + id + ", title=" + title + ", file_name=" + file_name + ", description=" + description + ", updated_at=" + updated_at + ", created_at=" + created_at + ", web_url=" + web_url + ", author=" + author + '}';
+                return title;
         }
-        
-        
 
 }

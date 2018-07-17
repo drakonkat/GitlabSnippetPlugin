@@ -6,10 +6,14 @@
 package it.drakonkat.gitlabsnippetplugin.frame;
 
 import it.drakonkat.gitlabsnipperplugin.config.PropertiesManager;
+import it.drakonkat.gitlabsnippetplugin.client.GitlabClient;
+import it.drakonkat.gitlabsnippetplugin.client.model.GitlabModel;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +26,14 @@ public class MainPanel extends javax.swing.JFrame {
          */
         public MainPanel() {
                 initComponents();
+                Properties p;
+                try {
+                        p = PropertiesManager.getInstance().loadProperties();
+                        customUrl.setText(p.getProperty("url"));
+                        accessToken.setText(p.getProperty("token"));
+                } catch (FileNotFoundException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
+                }
         }
 
         /**
@@ -39,9 +51,8 @@ public class MainPanel extends javax.swing.JFrame {
                 jLabel2 = new javax.swing.JLabel();
                 customUrl = new javax.swing.JTextField();
                 jButton1 = new javax.swing.JButton();
-                jScrollPane1 = new javax.swing.JScrollPane();
-                listSnippets = new javax.swing.JTextArea();
                 jButton2 = new javax.swing.JButton();
+                list1 = new java.awt.List();
 
                 jTextField1.setText("jTextField1");
 
@@ -75,10 +86,6 @@ public class MainPanel extends javax.swing.JFrame {
                         }
                 });
 
-                listSnippets.setColumns(20);
-                listSnippets.setRows(5);
-                jScrollPane1.setViewportView(listSnippets);
-
                 jButton2.setText("Carica");
                 jButton2.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,11 +102,11 @@ public class MainPanel extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addComponent(jButton2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 335, Short.MAX_VALUE)
                                                 .addComponent(jButton1))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addGroup(layout.createSequentialGroup()
                                                                 .addComponent(jLabel1)
                                                                 .addGap(18, 18, 18)
@@ -108,7 +115,7 @@ public class MainPanel extends javax.swing.JFrame {
                                                                 .addComponent(jLabel2)
                                                                 .addGap(18, 18, 18)
                                                                 .addComponent(customUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(0, 96, Short.MAX_VALUE)))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())
                 );
                 layout.setVerticalGroup(
@@ -122,9 +129,9 @@ public class MainPanel extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel2)
                                         .addComponent(customUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButton1)
                                         .addComponent(jButton2))
@@ -154,7 +161,15 @@ public class MainPanel extends javax.swing.JFrame {
         }//GEN-LAST:event_jButton1ActionPerformed
 
         private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-                listSnippets.setText("");
+                GitlabClient gitlabClient = new GitlabClient();
+                try {
+                        List<GitlabModel> snippets = gitlabClient.getSnippets();
+                        for (GitlabModel snippet : snippets) {
+                                list1.add(snippet.getTitle(), new Integer(snippet.getId()));
+                        }
+                } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
+                }
         }//GEN-LAST:event_jButton2ActionPerformed
 
         /**
@@ -199,8 +214,7 @@ public class MainPanel extends javax.swing.JFrame {
         private javax.swing.JButton jButton2;
         private javax.swing.JLabel jLabel1;
         private javax.swing.JLabel jLabel2;
-        private javax.swing.JScrollPane jScrollPane1;
         private javax.swing.JTextField jTextField1;
-        private javax.swing.JTextArea listSnippets;
+        private java.awt.List list1;
         // End of variables declaration//GEN-END:variables
 }
