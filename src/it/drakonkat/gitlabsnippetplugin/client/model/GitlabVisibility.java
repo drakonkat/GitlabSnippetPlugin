@@ -10,11 +10,11 @@ package it.drakonkat.gitlabsnippetplugin.client.model;
  * @author mmazzocchetti
  */
 public enum GitlabVisibility {
-        PRIVATE("private"), ITNERNAL("internal"), PUBLIC("public");
+        PRIVATE(0), ITNERNAL(10), PUBLIC(20);
 
-        private final String visibility;
+        private final Integer visibility;
 
-        private GitlabVisibility(String visibility) {
+        private GitlabVisibility(Integer visibility) {
                 this.visibility = visibility;
         }
 

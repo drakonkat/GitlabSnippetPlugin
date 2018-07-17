@@ -5,7 +5,13 @@
  */
 package it.drakonkat.gitlabsnippetplugin.frame;
 
+import it.drakonkat.gitlabsnippetplugin.frame.keylistener.GlobalListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
 
 /**
  *
@@ -22,6 +28,21 @@ public class MainFrame extends javax.swing.JFrame {
                 panel.setVisible(true);
                 panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                 this.setContentPane(panel);
+                try {
+                        // Configure Key Listener
+                        GlobalScreen.registerNativeHook();
+                        //Disable specific log level
+                        // Get the logger for "org.jnativehook" and set the level to warning.
+                        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+                        logger.setLevel(Level.WARNING);
+
+                        // Don't forget to disable the parent handlers.
+                        logger.setUseParentHandlers(false);
+                } catch (NativeHookException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: KEY01", JOptionPane.ERROR_MESSAGE);
+                }
+                GlobalScreen.addNativeKeyListener(new GlobalListener());
+
         }
 
         /**

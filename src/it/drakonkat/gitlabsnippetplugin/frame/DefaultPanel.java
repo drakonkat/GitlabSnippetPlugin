@@ -5,9 +5,10 @@
  */
 package it.drakonkat.gitlabsnippetplugin.frame;
 
-import it.drakonkat.gitlabsnipperplugin.config.PropertiesManager;
+import it.drakonkat.gitlabsnippetplugin.config.PropertiesManager;
 import it.drakonkat.gitlabsnippetplugin.client.GitlabClient;
 import it.drakonkat.gitlabsnippetplugin.client.model.GitlabModel;
+import it.drakonkat.gitlabsnippetplugin.client.model.GitlabVisibility;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Properties;
@@ -20,12 +21,14 @@ import javax.swing.JOptionPane;
  * @author mmazzocchetti
  */
 public class DefaultPanel extends javax.swing.JPanel {
-
+        
         private JFrame frame;
         private GitlabClient gitlabClient;
 
         /**
          * Creates new form DefaultPanel
+         *
+         * @param frame
          */
         public DefaultPanel(JFrame frame) {
                 initComponents();
@@ -58,9 +61,12 @@ public class DefaultPanel extends javax.swing.JPanel {
                 list1 = new java.awt.List();
                 caricaSnippet = new java.awt.Button();
                 salvaConfigurazione = new java.awt.Button();
+                button1 = new java.awt.Button();
 
+                jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel1.setText("AccessToken");
 
+                jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel2.setText("URL");
 
                 list1.addActionListener(new java.awt.event.ActionListener() {
@@ -83,6 +89,13 @@ public class DefaultPanel extends javax.swing.JPanel {
                         }
                 });
 
+                button1.setLabel("Crea snippet");
+                button1.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                button1ActionPerformed(evt);
+                        }
+                });
+
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
                 this.setLayout(layout);
                 layout.setHorizontalGroup(
@@ -92,20 +105,19 @@ public class DefaultPanel extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(jLabel1)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(accessToken, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(jLabel2)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(customUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGap(0, 200, Short.MAX_VALUE))
-                                        .addGroup(layout.createSequentialGroup()
                                                 .addComponent(caricaSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(salvaConfigurazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(salvaConfigurazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(customUrl)
+                                                        .addComponent(accessToken))))
                                 .addContainerGap())
                 );
                 layout.setVerticalGroup(
@@ -119,10 +131,11 @@ public class DefaultPanel extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel2)
                                         .addComponent(customUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(18, 18, 18)
                                 .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, 338, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(2, 2, 2)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(button1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(salvaConfigurazione, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(caricaSnippet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap())
@@ -132,7 +145,7 @@ public class DefaultPanel extends javax.swing.JPanel {
         private void caricaSnippetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caricaSnippetActionPerformed
                 caricaListaSnippet();
         }//GEN-LAST:event_caricaSnippetActionPerformed
-
+        
         private void caricaListaSnippet() {
                 try {
                         List<GitlabModel> snippets = gitlabClient.getSnippets();
@@ -161,20 +174,29 @@ public class DefaultPanel extends javax.swing.JPanel {
                 try {
                         GitlabModel snippet = gitlabClient.getSnippet(list1.getSelectedItem().split("-")[0]);
                         snippet.setCode(gitlabClient.getCode(snippet));
-                        SnippetDetailComponent panel = new SnippetDetailComponent(snippet, frame);
-                        panel.setVisible(true);
-                        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                        frame.remove(this);
-                        frame.setContentPane(panel);
-                        frame.pack();
+                        loadSnippetPanel(snippet);
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA02", JOptionPane.ERROR_MESSAGE);
                 }
         }//GEN-LAST:event_list1ActionPerformed
 
+        private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+                GitlabModel snippet = new GitlabModel();
+                snippet.setVisibility(GitlabVisibility.PUBLIC);
+                loadSnippetPanel(snippet);
+        }//GEN-LAST:event_button1ActionPerformed
+        private void loadSnippetPanel(GitlabModel gitlabModel) {
+                SnippetDetailComponent panel = new SnippetDetailComponent(gitlabModel, frame);
+                panel.setVisible(true);
+                panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                frame.remove(this);
+                frame.setContentPane(panel);
+                frame.pack();
+        }
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
         private javax.swing.JTextField accessToken;
+        private java.awt.Button button1;
         private java.awt.Button caricaSnippet;
         private javax.swing.JTextField customUrl;
         private javax.swing.JLabel jLabel1;

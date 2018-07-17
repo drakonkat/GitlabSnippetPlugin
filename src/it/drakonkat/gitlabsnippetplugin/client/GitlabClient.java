@@ -1,6 +1,6 @@
 package it.drakonkat.gitlabsnippetplugin.client;
 
-import it.drakonkat.gitlabsnipperplugin.config.PropertiesManager;
+import it.drakonkat.gitlabsnippetplugin.config.PropertiesManager;
 import it.drakonkat.gitlabsnippetplugin.client.model.GitlabModel;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -55,7 +55,7 @@ public class GitlabClient implements GitlabClientInterface {
                         Client client = ClientBuilder.newClient();
                         WebTarget webTarget = client.target(url);
                         Response response = null;
-                        if (getSnippet(gitlabModel.getId()) != null) {
+                        if (gitlabModel.getId() != null) {
                                 response = webTarget.path("/snippets/" + gitlabModel.getId()).request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).put(Entity.entity(gitlabModel, MediaType.APPLICATION_JSON));
                         } else {
                                 response = webTarget.path("/snippets").request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).post(Entity.entity(gitlabModel, MediaType.APPLICATION_JSON));
