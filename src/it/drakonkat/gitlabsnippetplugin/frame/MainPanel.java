@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 
 /**
@@ -90,6 +91,12 @@ public class MainPanel extends javax.swing.JFrame {
                 jButton2.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
                                 jButton2ActionPerformed(evt);
+                        }
+                });
+
+                list1.addActionListener(new java.awt.event.ActionListener() {
+                        public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                list1ActionPerformed(evt);
                         }
                 });
 
@@ -171,6 +178,27 @@ public class MainPanel extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
                 }
         }//GEN-LAST:event_jButton2ActionPerformed
+
+        private void list1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list1ActionPerformed
+                GitlabClient gitlabClient = new GitlabClient();
+                try {
+                        if (list1.getSelectedItem() != null) {
+                                List<GitlabModel> snippets = gitlabClient.getSnippets();
+                                for (GitlabModel snippet : snippets) {
+                                        if (list1.getSelectedItem().equals(snippet.getTitle())) {
+                                                SnippetDetailComponent panel = new SnippetDetailComponent(snippet);
+                                                panel.setVisible(true);
+                                                panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                                                this.setContentPane(panel);
+                                                this.pack();
+                                                this.setLocationByPlatform(true);
+                                        }
+                                }
+                        }
+                } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
+                }
+        }//GEN-LAST:event_list1ActionPerformed
 
         /**
          * @param args the command line arguments

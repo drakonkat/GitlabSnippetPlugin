@@ -131,6 +131,9 @@
       </Events>
     </Component>
     <Component class="java.awt.List" name="list1">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="list1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
