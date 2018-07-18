@@ -195,7 +195,7 @@ public class DefaultPanel extends javax.swing.JPanel {
 
         private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
                 GitlabModel snippet = new GitlabModel();
-                snippet.setVisibility(GitlabVisibility.PUBLIC);
+                snippet.setVisibility(GitlabVisibility.PRIVATE);
                 loadSnippetPanel(snippet);
         }//GEN-LAST:event_button1ActionPerformed
 
