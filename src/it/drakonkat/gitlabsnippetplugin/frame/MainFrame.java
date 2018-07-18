@@ -41,7 +41,7 @@ public class MainFrame extends javax.swing.JFrame {
                 } catch (NativeHookException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: KEY01", JOptionPane.ERROR_MESSAGE);
                 }
-                GlobalScreen.addNativeKeyListener(new GlobalListener());
+                GlobalScreen.addNativeKeyListener(new GlobalListener(this));
 
         }
 
