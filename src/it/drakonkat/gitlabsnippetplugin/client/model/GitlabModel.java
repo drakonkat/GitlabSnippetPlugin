@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class GitlabModel implements Serializable {
 
         private GitlabVisibility visibility;
-        private String code;
+        private String content;
         private String id;
         private String title;
         private String file_name;
@@ -32,12 +32,12 @@ public class GitlabModel implements Serializable {
                 this.visibility = visibility;
         }
 
-        public String getCode() {
-                return code;
+        public String getContent() {
+                return content;
         }
 
-        public void setCode(String code) {
-                this.code = code;
+        public void setContent(String content) {
+                this.content = content;
         }
 
         public String getId() {

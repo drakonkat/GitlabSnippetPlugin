@@ -36,7 +36,7 @@ public class SnippetDetailComponent extends javax.swing.JPanel {
                         this.gitlabModel = gitlabModel;
                 }
                 snippetTitle.setText(this.gitlabModel.getTitle());
-                snippetCode.setText(this.gitlabModel.getCode());
+                snippetCode.setText(this.gitlabModel.getContent());
         }
 
         /**
@@ -119,7 +119,7 @@ public class SnippetDetailComponent extends javax.swing.JPanel {
 
         private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
                 gitlabModel.setTitle(snippetTitle.getText());
-                gitlabModel.setCode(snippetCode.getText());
+                gitlabModel.setContent(snippetCode.getText());
                 try {
                         gitlabClient.saveSnippet(gitlabModel);
                 } catch (Exception ex) {

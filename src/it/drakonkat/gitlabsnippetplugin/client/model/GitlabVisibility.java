@@ -18,4 +18,8 @@ public enum GitlabVisibility {
                 this.visibility = visibility;
         }
 
+        public Integer getVisibility() {
+                return visibility;
+        }
+
 }

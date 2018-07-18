@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  * @author mmazzocchetti
  */
 public class DefaultPanel extends javax.swing.JPanel {
-        
+
         private JFrame frame;
         private GitlabClient gitlabClient;
 
@@ -145,7 +145,7 @@ public class DefaultPanel extends javax.swing.JPanel {
         private void caricaSnippetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caricaSnippetActionPerformed
                 caricaListaSnippet();
         }//GEN-LAST:event_caricaSnippetActionPerformed
-        
+
         private void caricaListaSnippet() {
                 try {
                         List<GitlabModel> snippets = gitlabClient.getSnippets();
@@ -173,7 +173,7 @@ public class DefaultPanel extends javax.swing.JPanel {
         private void list1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list1ActionPerformed
                 try {
                         GitlabModel snippet = gitlabClient.getSnippet(list1.getSelectedItem().split("-")[0]);
-                        snippet.setCode(gitlabClient.getCode(snippet));
+                        snippet.setContent(gitlabClient.getCode(snippet));
                         loadSnippetPanel(snippet);
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA02", JOptionPane.ERROR_MESSAGE);

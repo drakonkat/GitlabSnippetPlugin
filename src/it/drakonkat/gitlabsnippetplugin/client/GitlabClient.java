@@ -1,5 +1,6 @@
 package it.drakonkat.gitlabsnippetplugin.client;
 
+import it.drakonkat.gitlabsnippetplugin.client.logger.LoggingRestFilter;
 import it.drakonkat.gitlabsnippetplugin.config.PropertiesManager;
 import it.drakonkat.gitlabsnippetplugin.client.model.GitlabModel;
 import java.io.FileNotFoundException;
@@ -53,11 +54,16 @@ public class GitlabClient implements GitlabClientInterface {
                         Properties p = PropertiesManager.getInstance().loadProperties();
                         String url = p.getProperty("url");
                         Client client = ClientBuilder.newClient();
+                        client.register(LoggingRestFilter.class);
                         WebTarget webTarget = client.target(url);
+
                         Response response = null;
                         if (gitlabModel.getId() != null) {
                                 response = webTarget.path("/snippets/" + gitlabModel.getId()).request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).put(Entity.entity(gitlabModel, MediaType.APPLICATION_JSON));
                         } else {
+                                if (gitlabModel.getFile_name() == null) {
+                                        gitlabModel.setFile_name(gitlabModel.getTitle());
+                                }
                                 response = webTarget.path("/snippets").request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).post(Entity.entity(gitlabModel, MediaType.APPLICATION_JSON));
                         }
                         if (!(response.getStatus() == 200)) {
@@ -126,7 +132,7 @@ public class GitlabClient implements GitlabClientInterface {
                         Client client = ClientBuilder.newClient();
                         WebTarget webTarget = client.target(url);
                         Response response = webTarget.path("/snippets/" + gitlabModel.getId() + "/raw").request(MediaType.APPLICATION_XML).header("Private-Token", p.getProperty("token")).get();
-                        if (!(response.getStatus() == 200)) {
+                        if (checkStatur(response)) {
                                 throw new Exception("Response errata " + response.getStatus());
                         }
                         String code = response.readEntity(new GenericType<String>() {
@@ -140,4 +146,10 @@ public class GitlabClient implements GitlabClientInterface {
                         throw ex;
                 }
         }
+
+        private boolean checkStatur(Response response) {
+                return !(response.getStatus() >= 200 || response.getStatus() < 300);
+        }
+        
+        
 }
