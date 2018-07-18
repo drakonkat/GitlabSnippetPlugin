@@ -33,7 +33,7 @@ public class GitlabClient implements GitlabClientInterface {
                         Client client = ClientBuilder.newClient();
                         WebTarget webTarget = client.target(url);
                         Response response = webTarget.path("/snippets/" + id).request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).get();
-                        if (!(response.getStatus() == 200)) {
+                        if (checkStatus(response)) {
                                 throw new Exception("Response errata " + response.getStatus());
                         }
                         GitlabModel model = response.readEntity(new GenericType<GitlabModel>() {
@@ -66,7 +66,7 @@ public class GitlabClient implements GitlabClientInterface {
                                 }
                                 response = webTarget.path("/snippets").request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).post(Entity.entity(gitlabModel, MediaType.APPLICATION_JSON));
                         }
-                        if (!(response.getStatus() == 200)) {
+                        if (checkStatus(response)) {
                                 throw new Exception("Response errata " + response.getStatus());
                         }
 
@@ -88,7 +88,7 @@ public class GitlabClient implements GitlabClientInterface {
                         Client client = ClientBuilder.newClient();
                         WebTarget webTarget = client.target(url);
                         Response response = webTarget.path("/snippets/" + id).request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).delete();
-                        if (!(response.getStatus() == 200)) {
+                        if (checkStatus(response)) {
                                 throw new Exception("Response errata " + response.getStatus());
                         }
                         return true;
@@ -109,7 +109,7 @@ public class GitlabClient implements GitlabClientInterface {
                         Client client = ClientBuilder.newClient();
                         WebTarget webTarget = client.target(url);
                         Response response = webTarget.path("/snippets").request(MediaType.APPLICATION_JSON_TYPE).header("Private-Token", p.getProperty("token")).get();
-                        if (!(response.getStatus() == 200)) {
+                        if (checkStatus(response)) {
                                 throw new Exception("Response errata " + response.getStatus());
                         }
                         List<GitlabModel> model = response.readEntity(new GenericType<List<GitlabModel>>() {
@@ -132,7 +132,7 @@ public class GitlabClient implements GitlabClientInterface {
                         Client client = ClientBuilder.newClient();
                         WebTarget webTarget = client.target(url);
                         Response response = webTarget.path("/snippets/" + gitlabModel.getId() + "/raw").request(MediaType.APPLICATION_XML).header("Private-Token", p.getProperty("token")).get();
-                        if (checkStatur(response)) {
+                        if (checkStatus(response)) {
                                 throw new Exception("Response errata " + response.getStatus());
                         }
                         String code = response.readEntity(new GenericType<String>() {
@@ -147,9 +147,8 @@ public class GitlabClient implements GitlabClientInterface {
                 }
         }
 
-        private boolean checkStatur(Response response) {
+        private boolean checkStatus(Response response) {
                 return !(response.getStatus() >= 200 || response.getStatus() < 300);
         }
-        
-        
+
 }

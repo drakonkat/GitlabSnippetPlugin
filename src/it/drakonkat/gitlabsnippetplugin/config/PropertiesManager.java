@@ -33,7 +33,7 @@ public class PropertiesManager {
         }
 
         public Properties loadProperties() throws FileNotFoundException {
-                return loadProperties(DEFAULT_PATH, true);
+                return loadProperties(DEFAULT_PATH, false);
         }
 
         public void modifyProperties(Properties properties) throws FileNotFoundException {
