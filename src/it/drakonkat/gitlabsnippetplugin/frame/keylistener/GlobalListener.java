@@ -9,12 +9,10 @@ import it.drakonkat.gitlabsnippetplugin.client.model.GitlabModel;
 import it.drakonkat.gitlabsnippetplugin.client.model.GitlabVisibility;
 import it.drakonkat.gitlabsnippetplugin.frame.MainFrame;
 import it.drakonkat.gitlabsnippetplugin.frame.SnippetDetailComponent;
-import java.awt.Component;
 import java.awt.Frame;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
@@ -45,6 +43,7 @@ public class GlobalListener implements NativeKeyListener {
                         StringBuffer sb = new StringBuffer("Key Pressed: ");
                         Boolean ctrlContenuto = false;
                         Boolean altContenuto = false;
+                        Boolean shiftContenuto = false;
                         Boolean tContenuto = false;
                         for (Integer i : multipleKeyHandler) {
                                 sb.append(NativeKeyEvent.getKeyText(i) + i);
@@ -57,8 +56,11 @@ public class GlobalListener implements NativeKeyListener {
                                 if (i.equals(NativeKeyEvent.VC_ALT)) {
                                         altContenuto = true;
                                 }
+                                if (i.equals(NativeKeyEvent.VC_SHIFT)) {
+                                        shiftContenuto = true;
+                                }
                         }
-                        if (ctrlContenuto && tContenuto && altContenuto) {
+                        if (ctrlContenuto && tContenuto && altContenuto && shiftContenuto) {
                                 makeWindowAppear();
                         }
                         System.out.println(sb.toString());
