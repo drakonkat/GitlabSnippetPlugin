@@ -6,6 +6,7 @@
 package it.drakonkat.gitlabsnippetplugin.client.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -106,7 +107,32 @@ public class GitlabModel implements Serializable {
 
         @Override
         public String toString() {
-                return title;
+                return "GitlabModel{" + "visibility=" + visibility + ", content=" + content + ", id=" + id + ", title=" + title + ", file_name=" + file_name + ", description=" + description + ", updated_at=" + updated_at + ", created_at=" + created_at + ", web_url=" + web_url + ", author=" + author + '}';
+        }
+
+        @Override
+        public int hashCode() {
+                int hash = 5;
+                hash = 67 * hash + Objects.hashCode(this.id);
+                return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+                if (this == obj) {
+                        return true;
+                }
+                if (obj == null) {
+                        return false;
+                }
+                if (getClass() != obj.getClass()) {
+                        return false;
+                }
+                final GitlabModel other = (GitlabModel) obj;
+                if (!Objects.equals(this.id, other.id)) {
+                        return false;
+                }
+                return true;
         }
 
 }
