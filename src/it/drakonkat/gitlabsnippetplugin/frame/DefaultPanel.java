@@ -65,11 +65,13 @@ public class DefaultPanel extends javax.swing.JPanel {
                 list1 = new java.awt.List();
                 caricaSnippet = new java.awt.Button();
                 salvaConfigurazione = new java.awt.Button();
-                button1 = new java.awt.Button();
-                button2 = new java.awt.Button();
-                caricaSnippet1 = new java.awt.Button();
-                caricaSnippet2 = new java.awt.Button();
-                button3 = new java.awt.Button();
+                generateButton = new java.awt.Button();
+                deleteButton = new java.awt.Button();
+                importSnippet = new java.awt.Button();
+                exportSnippet = new java.awt.Button();
+                loadAllButton = new java.awt.Button();
+                jLabel3 = new javax.swing.JLabel();
+                snippetPath = new javax.swing.JTextField();
 
                 jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
                 jLabel1.setText("AccessToken");
@@ -86,51 +88,54 @@ public class DefaultPanel extends javax.swing.JPanel {
                 caricaSnippet.setLabel("Carica snippet");
                 caricaSnippet.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                caricaSnippetActionPerformed(evt);
+                                reloadSnippetFromCloud(evt);
                         }
                 });
 
                 salvaConfigurazione.setLabel("Salva Configurazione");
                 salvaConfigurazione.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                salvaConfigurazioneActionPerformed(evt);
+                                saveConfigurationCloud(evt);
                         }
                 });
 
-                button1.setLabel("Crea snippet");
-                button1.addActionListener(new java.awt.event.ActionListener() {
+                generateButton.setLabel("Crea snippet");
+                generateButton.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                button1ActionPerformed(evt);
+                                geneerateSnippet(evt);
                         }
                 });
 
-                button2.setLabel("Elimina");
-                button2.addActionListener(new java.awt.event.ActionListener() {
+                deleteButton.setLabel("Elimina");
+                deleteButton.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                button2ActionPerformed(evt);
+                                deleteSnippet(evt);
                         }
                 });
 
-                caricaSnippet1.setLabel("Importa");
-                caricaSnippet1.addActionListener(new java.awt.event.ActionListener() {
+                importSnippet.setLabel("Importa");
+                importSnippet.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                caricaSnippet1ActionPerformed(evt);
+                                importSnippetFromFile(evt);
                         }
                 });
 
-                caricaSnippet2.setLabel("Esporta");
-                caricaSnippet2.addActionListener(new java.awt.event.ActionListener() {
+                exportSnippet.setLabel("Esporta");
+                exportSnippet.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                caricaSnippet2ActionPerformed(evt);
+                                exportSnippetInFile(evt);
                         }
                 });
 
-                button3.setLabel("Carica tutti");
-                button3.addActionListener(new java.awt.event.ActionListener() {
+                loadAllButton.setLabel("Carica tutti");
+                loadAllButton.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                                button3ActionPerformed(evt);
+                                reloadListSnippet(evt);
                         }
                 });
+
+                jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                jLabel3.setText("Snippet path");
 
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
                 this.setLayout(layout);
@@ -141,28 +146,30 @@ public class DefaultPanel extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
-                                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(customUrl)
-                                                        .addComponent(accessToken)))
-                                        .addGroup(layout.createSequentialGroup()
                                                 .addComponent(caricaSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(generateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(salvaConfigurazione, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(caricaSnippet2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(exportSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(caricaSnippet1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(importSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                                .addComponent(loadAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
+                                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(customUrl)
+                                                        .addComponent(accessToken)
+                                                        .addComponent(snippetPath))))
                                 .addContainerGap())
                 );
                 layout.setVerticalGroup(
@@ -176,26 +183,30 @@ public class DefaultPanel extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel2)
                                         .addComponent(customUrl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, 236, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel3)
+                                        .addComponent(snippetPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(generateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(salvaConfigurazione, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(caricaSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(caricaSnippet1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(caricaSnippet2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(importSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(exportSnippet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(loadAllButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap())
                 );
         }// </editor-fold>//GEN-END:initComponents
 
-        private void caricaSnippetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caricaSnippetActionPerformed
+        private void reloadSnippetFromCloud(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadSnippetFromCloud
                 caricaListaSnippet();
-        }//GEN-LAST:event_caricaSnippetActionPerformed
+        }//GEN-LAST:event_reloadSnippetFromCloud
 
         private void caricaListaSnippet() {
                 try {
@@ -217,7 +228,7 @@ public class DefaultPanel extends javax.swing.JPanel {
                 }
         }
 
-        private void salvaConfigurazioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvaConfigurazioneActionPerformed
+        private void saveConfigurationCloud(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveConfigurationCloud
                 Properties p;
                 try {
                         p = PropertiesManager.getInstance().loadProperties();
@@ -227,7 +238,7 @@ public class DefaultPanel extends javax.swing.JPanel {
                 } catch (FileNotFoundException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
                 }
-        }//GEN-LAST:event_salvaConfigurazioneActionPerformed
+        }//GEN-LAST:event_saveConfigurationCloud
 
         private void list1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list1ActionPerformed
                 try {
@@ -239,41 +250,49 @@ public class DefaultPanel extends javax.swing.JPanel {
                 }
         }//GEN-LAST:event_list1ActionPerformed
 
-        private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        private void geneerateSnippet(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_geneerateSnippet
                 GitlabModel snippet = new GitlabModel();
                 snippet.setVisibility(GitlabVisibility.PRIVATE);
                 loadSnippetPanel(snippet);
-        }//GEN-LAST:event_button1ActionPerformed
+        }//GEN-LAST:event_geneerateSnippet
 
-        private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        private void deleteSnippet(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteSnippet
                 try {
                         gitlabClient.deleteSnippet(list1.getSelectedItem().split("-")[0]);
                         caricaListaSnippet();
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA06", JOptionPane.ERROR_MESSAGE);
                 }
-        }//GEN-LAST:event_button2ActionPerformed
+        }//GEN-LAST:event_deleteSnippet
 
-        private void caricaSnippet1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caricaSnippet1ActionPerformed
+        private void importSnippetFromFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importSnippetFromFile
                 try {
                         Set<GitlabModel> snippets = new HashSet<>();
                         snippets.addAll(gitlabClient.getSnippets());
-                        snippets.addAll(ExportManager.getInstance().importSnippet());
+                        if (snippetPath.getText() != null && !snippetPath.getText().equals("")) {
+                                snippets.addAll(ExportManager.getInstance().importSnippet(snippetPath.getText()));
+                        } else {
+                                snippets.addAll(ExportManager.getInstance().importSnippet());
+                        }
                         caricaListaSnippet(new ArrayList<>(snippets));
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
                 }
-        }//GEN-LAST:event_caricaSnippet1ActionPerformed
+        }//GEN-LAST:event_importSnippetFromFile
 
-        private void caricaSnippet2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caricaSnippet2ActionPerformed
+        private void exportSnippetInFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSnippetInFile
                 try {
-                        ExportManager.getInstance().exportSnippet(gitlabClient.getSnippets());
+                        if (snippetPath.getText() != null && !snippetPath.getText().equals("")) {
+                                ExportManager.getInstance().exportSnippet(gitlabClient.getSnippets(), snippetPath.getText());
+                        } else {
+                                ExportManager.getInstance().exportSnippet(gitlabClient.getSnippets());
+                        }
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: EXP01", JOptionPane.ERROR_MESSAGE);
                 }
-        }//GEN-LAST:event_caricaSnippet2ActionPerformed
+        }//GEN-LAST:event_exportSnippetInFile
 
-        private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        private void reloadListSnippet(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reloadListSnippet
                 try {
                         for (String string : list1.getItems()) {
                                 String id = string.split("-")[0];
@@ -283,7 +302,7 @@ public class DefaultPanel extends javax.swing.JPanel {
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: UPD01", JOptionPane.ERROR_MESSAGE);
                 }
-        }//GEN-LAST:event_button3ActionPerformed
+        }//GEN-LAST:event_reloadListSnippet
         private void loadSnippetPanel(GitlabModel gitlabModel) {
                 SnippetDetailComponent panel = new SnippetDetailComponent(gitlabModel, frame);
                 panel.setVisible(true);
@@ -295,16 +314,18 @@ public class DefaultPanel extends javax.swing.JPanel {
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
         private javax.swing.JTextField accessToken;
-        private java.awt.Button button1;
-        private java.awt.Button button2;
-        private java.awt.Button button3;
         private java.awt.Button caricaSnippet;
-        private java.awt.Button caricaSnippet1;
-        private java.awt.Button caricaSnippet2;
         private javax.swing.JTextField customUrl;
+        private java.awt.Button deleteButton;
+        private java.awt.Button exportSnippet;
+        private java.awt.Button generateButton;
+        private java.awt.Button importSnippet;
         private javax.swing.JLabel jLabel1;
         private javax.swing.JLabel jLabel2;
+        private javax.swing.JLabel jLabel3;
         private java.awt.List list1;
+        private java.awt.Button loadAllButton;
         private java.awt.Button salvaConfigurazione;
+        private javax.swing.JTextField snippetPath;
         // End of variables declaration//GEN-END:variables
 }
