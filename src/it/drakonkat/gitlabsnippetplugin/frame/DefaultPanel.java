@@ -11,6 +11,7 @@ import it.drakonkat.gitlabsnippetplugin.client.model.GitlabModel;
 import it.drakonkat.gitlabsnippetplugin.client.model.GitlabVisibility;
 import it.drakonkat.gitlabsnippetplugin.config.ExportManager;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +44,7 @@ public class DefaultPanel extends javax.swing.JPanel {
                         p = PropertiesManager.getInstance().loadProperties();
                         customUrl.setText(p.getProperty("url"));
                         accessToken.setText(p.getProperty("token"));
+                        snippetPath.setText(p.getProperty("snippet.file.path"));
                 } catch (FileNotFoundException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
                 }
@@ -213,7 +215,7 @@ public class DefaultPanel extends javax.swing.JPanel {
                         List<GitlabModel> snippets = gitlabClient.getSnippets();
                         caricaListaSnippet(snippets);
                 } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
+                        list1.removeAll();
                 }
         }
 
@@ -234,9 +236,12 @@ public class DefaultPanel extends javax.swing.JPanel {
                         p = PropertiesManager.getInstance().loadProperties();
                         p.setProperty("url", customUrl.getText());
                         p.setProperty("token", accessToken.getText());
+                        p.setProperty("snippet.file.path", snippetPath.getText());
                         PropertiesManager.getInstance().modifyProperties(p);
                 } catch (FileNotFoundException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA01", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage(), "ErrorBox: JAVA54", JOptionPane.ERROR_MESSAGE);
                 }
         }//GEN-LAST:event_saveConfigurationCloud
 

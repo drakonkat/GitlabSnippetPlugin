@@ -36,7 +36,7 @@ public class PropertiesManager {
                 return loadProperties(DEFAULT_PATH, false);
         }
 
-        public void modifyProperties(Properties properties) throws FileNotFoundException {
+        public void modifyProperties(Properties properties) throws FileNotFoundException, IOException {
                 modifyProperties(properties, DEFAULT_PATH);
         }
 
@@ -59,8 +59,11 @@ public class PropertiesManager {
                 } else {
                         //Lo carico come risorsa esterna
                         try {
-                                is = new FileInputStream(path);
+                                File f = new File(path);
+                                f.createNewFile();
+                                is = new FileInputStream(f);
                         } catch (FileNotFoundException e) {
+                        } catch (IOException ex) {
                         }
                 }
                 if (is == null) {
@@ -84,13 +87,11 @@ public class PropertiesManager {
                 return element;
         }
 
-        public void modifyProperties(Properties properties, String path) {
-                try {
-                        File f = new File(path);
-                        OutputStream out = new FileOutputStream(f);
-                        properties.store(out, "Aggiornamento properties " + System.currentTimeMillis());
-                } catch (Exception e) {
-                        e.printStackTrace();
-                }
+        public void modifyProperties(Properties properties, String path) throws FileNotFoundException, IOException {
+                File f = new File(path);
+                f.createNewFile();
+                OutputStream out = new FileOutputStream(f);
+                properties.store(out, "Aggiornamento properties " + System.currentTimeMillis());
+
         }
 }
